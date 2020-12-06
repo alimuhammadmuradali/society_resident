@@ -145,8 +145,6 @@ class _forgotPasswordScreenState extends State<forgotPasswordScreen> {
                       emailProvided= true;
                     }
                   });
-
-
                 },
                 obscureText: false,
               ),

@@ -24,43 +24,6 @@ class _sweeperDetailState extends State<sweeperDetail> {
 
           SweeperWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
               ,"Yassa","Y/456 Karimabad Colony","0383947468","421473-8749363-8","yassafareed@gmail.com","Sweeper","3pm-3am","25000"),
-          // Column(
-          //   children: <Widget>[
-          //     Material(
-          //       elevation: 10.0,
-          //       child: Card(
-          //         elevation: 10.0,
-          //         borderOnForeground: true,
-          //         child: Image.network('https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg'),
-          //       ),
-          //     ),
-          //     Container(
-          //       height: MediaQuery.of(context).size.height*0.4,
-          //       width: MediaQuery.of(context).size.width,
-          //       margin: EdgeInsets.only(top: 30.0),
-          //       child: Card(
-          //         elevation: 30.0,
-          //         child: Column(
-          //           children: <Widget>[
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //             Text("HELLO"),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-
         ],
         options: CarouselOptions(
           disableCenter: true,
