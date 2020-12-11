@@ -196,7 +196,7 @@ class update_Details extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Text(
-                      "President Information",
+                      "Resident Information",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
@@ -235,11 +235,11 @@ class _updateFormState extends State<updateForm> {
 
 
   ImageSource imgSource;
-  TextEditingController _presidentName = TextEditingController();
-  TextEditingController _presidentPhone = TextEditingController();
+  TextEditingController _residentName = TextEditingController();
+  TextEditingController _residentPhone = TextEditingController();
   TextEditingController _building = TextEditingController();
   TextEditingController _flat = TextEditingController();
-  TextEditingController _presidentCnic = TextEditingController();
+  TextEditingController _residentCnic = TextEditingController();
 
   String updateNameErrorText;
   String updatePhoneErrorText;
@@ -370,7 +370,7 @@ class _updateFormState extends State<updateForm> {
 //                text_input(
 //                    'Enter President\'s Full Name', Icons.contact_mail, false),
                 TextFormField(
-                  controller: _presidentName,
+                  controller: _residentName,
                   keyboardType: TextInputType.name,
 
                   decoration: InputDecoration(
@@ -477,7 +477,7 @@ class _updateFormState extends State<updateForm> {
 
 
                 TextFormField(
-                  controller: _presidentPhone,
+                  controller: _residentPhone,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
@@ -724,7 +724,7 @@ class _updateFormState extends State<updateForm> {
 //                text_input(
 //                    'Enter President\'s CNIC', Icons.card_membership, false),
                 TextFormField(
-                  controller: _presidentCnic,
+                  controller: _residentCnic,
                   decoration: InputDecoration(
                     //labelText: 'Email',
                     hintText: '42101-7986330-1',
@@ -837,9 +837,9 @@ class _updateFormState extends State<updateForm> {
                           setState(() {
                             if(_imageFile!=null) _imageFile=null;
                             if(updateBuildingProvided) _building.clear();
-                            if(updateCNICProvided) _presidentCnic.clear();
-                            if(updateNameProvided) _presidentName.clear();
-                            if(updatePhoneProvided) _presidentPhone.clear();
+                            if(updateCNICProvided) _residentCnic.clear();
+                            if(updateNameProvided) _residentName.clear();
+                            if(updatePhoneProvided) _residentPhone.clear();
                             if(updateFlatProvided)  _flat.clear();
                           });
                         }

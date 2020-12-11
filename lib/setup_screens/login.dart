@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:society_resident/home_screens/home_screens.dart';
+//import 'package:society_resident/services/auth_service.dart';
 import 'package:society_resident/setup_screens/forgot_password.dart';
 import 'package:toast/toast.dart';
 class LoginScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool emailProvided = false;
   bool passwordProvided = false;
 
-
+  var token;
 
   @override
   Widget build(BuildContext context) {
@@ -288,12 +289,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
 
                         if(emailProvided && passwordProvided) {
-                          Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => homeScreen()));
-                          print('Verifying President');
-                          Toast.show("Verified", context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                        }
+                          AuthService()
+                               .login(_email.text, _password.text)
+                               .then((val) {
+    print(val);
+    if (val['success']) {
+    token = val['token'];
+    print(token);
+    Toast.show("Authenticated", context,
+    duration: Toast.LENGTH_LONG,
+    gravity: Toast.BOTTOM);
+    Navigator.pop(context);
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => homeScreen()));
+    //  }
+    //  }
+    //  );
+    //   print('Verifying President');
+    //Toast.show("Verified", context,
+    //  duration: Toast.LENGTH_LONG,
+    //gravity: Toast.BOTTOM);
+    }
+    }
 
                         else if(!emailProvided && !passwordProvided){
                           Toast.show("invalid Email and Password", context,
