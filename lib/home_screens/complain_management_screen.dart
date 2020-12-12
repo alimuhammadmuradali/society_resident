@@ -7,178 +7,6 @@ class complainManagement extends StatefulWidget {
   _complainManagementState createState() => _complainManagementState();
 }
 
-// class _complainManagementState extends State<complainManagement> {
-//   var _status = ['Not Listened', 'In Progress', 'Listened'];
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: SingleChildScrollView(
-//       child:
-//           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-//            Container(
-//           padding: EdgeInsets.all(10),
-//           width: double.infinity,
-//           height: 300.0,
-//           decoration: BoxDecoration(borderRadius: BorderRadius.circular(40.0)),
-//           child: Card(
-//             elevation: 10.0,
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: <Widget>[
-//                 Padding(
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: Column(
-//                     children: <Widget>[
-//                       Center(child: Text("Title Of Complain")),
-//                       SizedBox(height: 10,),
-//                       DropdownButton<String>(
-//                         isExpanded: false,
-//                         focusColor: Colors.grey,
-//                         hint: Text("Status Of Complain"),
-//                         items: _status.map((String dropDownStringItem) {
-//                           return DropdownMenuItem<String>(
-//                             value: dropDownStringItem,
-//                             child: Text(dropDownStringItem),
-//                           );
-//                         }).toList(),
-//                         onChanged: (String newvalue) {
-//                           setState(() {});
-//                         },
-//                       ),
-//                       SizedBox(height: 10,),
-//                       Text(
-//                         "Complain:",
-//                         style: TextStyle(fontWeight: FontWeight.bold),
-//                       ),
-//                       SizedBox(height: 10,),
-//                       Container(
-//                         width: 300.0,
-//                         height: 140.0,
-//                         child: AutoSizeText(
-//                           'This string will be automatically resized to fit in two lines.This string will be automatically resized to fit in two lines.',
-//                           style: TextStyle(fontSize: 17.0),
-//                           maxLines: 6,
-//                         ),
-//                       ),
-//
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//             Container(
-//               padding: EdgeInsets.all(10),
-//               width: double.infinity,
-//               height: 300.0,
-//               decoration: BoxDecoration(borderRadius: BorderRadius.circular(40.0)),
-//               child: Card(
-//                 elevation: 10.0,
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: <Widget>[
-//                     Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Center(child: Text("Title Of Complain")),
-//                           SizedBox(height: 10,),
-//                           DropdownButton<String>(
-//                             isExpanded: false,
-//                             focusColor: Colors.grey,
-//                             hint: Text("Status Of Complain"),
-//                             items: _status.map((String dropDownStringItem) {
-//                               return DropdownMenuItem<String>(
-//                                 value: dropDownStringItem,
-//                                 child: Text(dropDownStringItem),
-//                               );
-//                             }).toList(),
-//                             onChanged: (String newvalue) {
-//                               setState(() {});
-//                             },
-//                           ),
-//                           SizedBox(height: 10,),
-//                           Text(
-//                             "Complain:",
-//                             style: TextStyle(fontWeight: FontWeight.bold),
-//                           ),
-//                           SizedBox(height: 10,),
-//                           Container(
-//                             width: 300.0,
-//                             height: 140.0,
-//                             child: AutoSizeText(
-//                               'This string will be automatically resized to fit in two lines.This string will be automatically resized to fit in two lines.',
-//                               style: TextStyle(fontSize: 17.0),
-//                               maxLines: 6,
-//                             ),
-//                           ),
-//
-//                         ],
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             Container(
-//               padding: EdgeInsets.all(10),
-//               width: double.infinity,
-//               height: 300.0,
-//               decoration: BoxDecoration(borderRadius: BorderRadius.circular(40.0)),
-//               child: Card(
-//                 elevation: 10.0,
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: <Widget>[
-//                     Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Center(child: Text("Title Of Complain")),
-//                           SizedBox(height: 10,),
-//                           DropdownButton<String>(
-//                             isExpanded: false,
-//                             focusColor: Colors.grey,
-//                             hint: Text("Status Of Complain"),
-//                             items: _status.map((String dropDownStringItem) {
-//                               return DropdownMenuItem<String>(
-//                                 value: dropDownStringItem,
-//                                 child: Text(dropDownStringItem),
-//                               );
-//                             }).toList(),
-//                             onChanged: (String newvalue) {
-//                               setState(() {});
-//                             },
-//                           ),
-//                           SizedBox(height: 10,),
-//                           Text(
-//                             "Complain:",
-//                             style: TextStyle(fontWeight: FontWeight.bold),
-//                           ),
-//                           SizedBox(height: 10,),
-//                           Container(
-//                             width: 300.0,
-//                             height: 140.0,
-//                             child: AutoSizeText(
-//                               'This string will be automatically resized to fit in two lines.This string will be automatically resized to fit in two lines.',
-//                               style: TextStyle(fontSize: 17.0),
-//                               maxLines: 6,
-//                             ),
-//                           ),
-//
-//                         ],
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//       ]),
-//     ));
-//   }
-// }
-
 
 class _complainManagementState extends State<complainManagement> {
   @override
@@ -198,6 +26,7 @@ class _complainManagementState extends State<complainManagement> {
 }
 
 class ColoumnWidget extends StatefulWidget {
+  String objId;
   String title;
   String status;
   String name;
@@ -206,8 +35,18 @@ class ColoumnWidget extends StatefulWidget {
   String date;
   String description;
 
-  ColoumnWidget({ Key key, this.title,this.name,this.flat,this.building,this.date,this.status,this.description }): super(key: key);
 
+  ColoumnWidget(
+      {Key key,
+        this.title,
+        this.name,
+        this.flat,
+        this.building,
+        this.date,
+        this.description,
+        this.status,
+        this.objId})
+      : super(key: key);
 
   @override
   _ColoumnWidgetState createState() => _ColoumnWidgetState();
@@ -306,7 +145,7 @@ class _ColoumnWidgetState extends State<ColoumnWidget> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 8,),
+                      SizedBox(height: 8),
                       Container(
                         height: 20,
                         width: 300,

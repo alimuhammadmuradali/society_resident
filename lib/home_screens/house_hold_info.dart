@@ -9,7 +9,7 @@ class houseHoldInfo extends StatefulWidget {
 
 class _houseHoldInfoState extends State<houseHoldInfo> {
   @override
-  var _status = ['Not Listened', 'In Progress', 'Listened'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

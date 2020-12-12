@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:society_resident/Drawer/my_complain.dart';
 import 'package:toast/toast.dart';
 import 'package:society_resident/Drawer/add_complain.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:society_resident/detail_screen/update_detail.dart';
-//<<<<<<< HEAD
-//
-//=======
-//
-//import 'add_resident.dart';
-//
-//>>>>>>> b8f0e37e9a14b4a67aab1f8c554013fd7db93143
-/*
-<<<<<<< HEAD
-import 'add_resident.dart';
-=======
->>>>>>> 9a84d0b9875c632e8df62c0c8537caa3384660d2
-*/
 
 class Main_Drawer extends StatelessWidget {
 
@@ -35,29 +23,6 @@ class Main_Drawer extends StatelessWidget {
     print(location.accuracy);
   }
 
-
-//<<<<<<< HEAD
-// class Main_Drawer extends StatelessWidget {
-//
-//   var _latitude , _longitude;
-// //  LocationData _locationData;
-// //  Location _location;
-//
-//   Position _currentPosition;
-//   String _currentAddress;
-//
-//   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-//
-//   void _getCurrentLocation()async{
-//     final location = await Geolocator().getCurrentPosition();
-//     print(location.latitude);
-//     print(location.longitude);
-//     print(location.accuracy);
-//   }
-//
-
-//=======
-//>>>>>>> 29e8b6530bdcc74e0ca1b1c0894c89200609ac68
   @override
   void initState(){
     _getCurrentLocation();
@@ -110,6 +75,19 @@ class Main_Drawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) =>  new add_complain()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.all_out),
+            title: Text(
+              "My Complains",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            onTap: (){
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  new myComplain()));
             },
           ),
 
