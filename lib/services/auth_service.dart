@@ -7,7 +7,7 @@ class AuthService {
   Map<String, String> _headers = {
     "Content-Type": "application/json",
   };
-  final BASE_URL = 'http://192.168.0.110:5000/api/v1/auth';
+  final BASE_URL = 'http://192.168.100.134:5000/api/v1/auth';
   Future login(email, password) async {
     final path = '$BASE_URL/login';
     print(email);
@@ -24,6 +24,7 @@ class AuthService {
           body: json.encode(jsonBody),
           encoding: Encoding.getByName("utf-8"));
       var respondedMap = json.decode(response.body);
+      print(respondedMap);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return respondedMap;
       }
