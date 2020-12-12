@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:society_resident/home_screens/home_screens.dart';
-//import 'package:society_resident/services/auth_service.dart';
+import 'package:society_resident/services/auth_service.dart';
 import 'package:society_resident/setup_screens/forgot_password.dart';
 import 'package:toast/toast.dart';
 class LoginScreen extends StatefulWidget {
@@ -312,6 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //  duration: Toast.LENGTH_LONG,
     //gravity: Toast.BOTTOM);
     }
+                               });
     }
 
                         else if(!emailProvided && !passwordProvided){
