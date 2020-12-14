@@ -291,13 +291,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => homeScreen()));
-                              //  }
-                              //  }
-                              //  );
-                              //   print('Verifying President');
-                              //Toast.show("Verified", context,
-                              //  duration: Toast.LENGTH_LONG,
-                              //gravity: Toast.BOTTOM);
                             }
                           });
                         } else if (!emailProvided && !passwordProvided) {

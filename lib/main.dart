@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:society_resident/constants/global_variables.dart';
 import 'package:society_resident/home_screens/home_screens.dart';
+import 'package:society_resident/services/complain.dart';
+import 'package:society_resident/services/resident.dart';
+import 'package:society_resident/services/workers.dart';
 import 'package:society_resident/setup_screens/login.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  ComplainServices().getComaplains();
+  WorkerServices().getGuards('guard');
+  WorkerServices().getSweeper('sweeper');
+  ResidentServices().getByBuildings();
   runApp(new MyApp());
 }
 

@@ -6,6 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:society_resident/home_screens/complain_management_screen.dart';
 import 'package:society_resident/home_screens/home_screens.dart';
+import 'package:society_resident/services/complain.dart';
 import 'package:toast/toast.dart';
 
 class add_complain extends StatelessWidget {
@@ -79,6 +80,7 @@ class _complainFormState extends State<complainForm> {
 
 
   TextEditingController _complain = TextEditingController();
+  TextEditingController _title = TextEditingController();
   bool complainProvided = false;
   String complainErrorText;
 
@@ -110,11 +112,49 @@ class _complainFormState extends State<complainForm> {
                 ),
 //                text_input(
 //                    'Enter Resident\'s Full Name', Icons.contact_mail, false),
+                TextFormField(
+                  controller: _title,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: 'Enter Complain Title',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey),
+                        gapPadding: 10),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey),
+                        gapPadding: 10),
+                    focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey),
+                        gapPadding: 10),
+                    errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey),
+                        gapPadding: 10),
+                    prefixIcon: Icon(
+                      Icons.title,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  obscureText: false,
+                ),
+                SizedBox(
+                  height: 25.0,
+                ),
                 TextField(
                   maxLines: 6,
                   controller: _complain,
                   decoration: InputDecoration(
-                    hintText: 'write your Complain..',
+                    hintText: 'Enter Your Complain..',
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
@@ -165,9 +205,15 @@ class _complainFormState extends State<complainForm> {
 
 
                         if( complainProvided  ){
-                          Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => complainManagement()));
-                          Toast.show("Complain Added", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                          ComplainServices().createComplain(_title.text , _complain.text).then((value){
+                            ComplainServices().getMyComplains();
+
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => complainManagement()));
+                            Toast.show("Complain Added", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+                          });
+
 
 
                           setState(() {

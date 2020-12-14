@@ -61,7 +61,7 @@ class Main_Drawer extends StatelessWidget {
                     ),
                   ),
 
-                  Text("YOUR NAME" ,style: TextStyle(color: Colors.white),)
+                  Text(user.name ,style: TextStyle(color: Colors.white),)
                 ],
               ),
             ),

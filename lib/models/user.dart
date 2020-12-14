@@ -3,6 +3,9 @@ class User
   String email = '';
   String name = '';
   String password = '';
+  int flat = 0;
+  String building = '';
+
   User.fromJson(Map<String, dynamic> map) {
     if (map == null){
       return;
@@ -20,6 +23,14 @@ class User
   {
     this.name = names;
   }
+  void set Flat(int flat)
+  {
+    this.flat = flat;
+  }
+  void set Building(String building)
+  {
+    this.building = building;
+  }
   String get Email
   {
     return email ;
@@ -29,5 +40,13 @@ class User
     return name;
   }
 
+  int get Flat
+  {
+    return flat ;
+  }
+  String get Building
+  {
+    return building;
+  }
   User({this.email});
 }

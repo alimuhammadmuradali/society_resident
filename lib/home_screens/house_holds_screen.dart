@@ -93,7 +93,7 @@ class _houseHoldsViewState extends State<houseHoldsView> {
   @override
   void initState(){
     super.initState();
-    ResidentServices().getByBuildings();
+//    ResidentServices().getByBuildings();
   }
 
   @override

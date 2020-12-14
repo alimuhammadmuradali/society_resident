@@ -17,7 +17,7 @@ class _complainManagementState extends State<complainManagement> {
   void initState(){
     super.initState();
 
-    ComplainServices().getComaplains();
+//    ComplainServices().getComaplains();
   }
 
 

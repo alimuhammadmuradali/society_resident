@@ -42,6 +42,42 @@ class AuthService {
       // return false;
     }
   }
+  Future getCurrentUser() async
+  {
+    final path = '$BASE_URL/me';
+    Map jsonBody = {"email": user.email};
+    var response;
+    try {
+      print('POST API CALLED $path');
+      response = await http.post(path,
+          headers: _headers,
+          body: json.encode(jsonBody),
+          encoding: Encoding.getByName("utf-8"));
+      print(response);
+      var respondedMap = json.decode(response.body)['data'];
+      user.building = respondedMap['building'];
+      user.flat = respondedMap['flat'];
+      user.name = respondedMap['name'].toString();
+      print("HELLO");
+      print(respondedMap);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return respondedMap;
+      } else {
+        return respondedMap;
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: response?.body['msg'],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+
+
+  }
 
   Future<Map<String, dynamic>> forgetPassword(email) async {
     final path = '$BASE_URL/forgetpassword';

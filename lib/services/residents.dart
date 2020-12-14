@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:society_resident/home_screens/house_hold_info.dart';
 import 'package:society_resident/home_screens/house_holds_screen.dart';
 
+
 class ResidentServices {
   Map<String, String> _headers = {
     "Content-Type": "application/json",
@@ -14,16 +15,15 @@ class ResidentServices {
     final path = '$BASE_URL/building';
     print(_headers);
     var response;
-
-    Map jsonbody = {"building": build};
+       Map jsonbody = {"building": build};
     try {
       print("Get API CALLED $path");
-      response = await http.post(
-          path ,
-          body: json.encode(jsonbody),
-          headers: _headers ,
-          encoding: Encoding.getByName("utf-8")
-      );
+        response = await http.post(
+        path ,
+        body: json.encode(jsonbody),
+        headers: _headers ,
+         encoding: Encoding.getByName("utf-8")
+        );
 
       residentsByBuildings = json.decode(response.body)['data'];
 
@@ -45,7 +45,7 @@ class ResidentServices {
       );
     }
   }
-  Future getByBuildings() async {
+   Future getByBuildings() async {
     final path = '$BASE_URL/buildings';
     print(_headers);
     var response;

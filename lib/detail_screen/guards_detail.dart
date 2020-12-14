@@ -8,7 +8,7 @@ class guardDetail extends StatefulWidget {
   @override
   _guardDetailState createState() => _guardDetailState();
 }
-
+List guards ;
 class _guardDetailState extends State<guardDetail> {
 
    var index;
@@ -22,14 +22,13 @@ class _guardDetailState extends State<guardDetail> {
 
         items: <Widget>[
 
-          GuardWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
-            ,"Ali Muhammad","Y/812 Karimabad Colony","03999876544","42101-8765443-1","Alimuhammadmuradali@gmail.com","Guard","9am-9pm","20000"),
-
-          GuardWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
-              ,"Hassan","Y/001 Karimabad Colony","03987654368","42103-87783633-0","Hassanqa13@gmail.com","Guard","9pm-9am","15000"),
-
-          GuardWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
-              ,"Yassa","Y/456 Karimabad Colony","0383947468","421473-8749363-8","yassafareed@gmail.com","Guard","3pm-3am","25000"),
+          ListView.builder(
+              itemCount: guards.length,
+              itemBuilder: (context , index){
+                return GuardWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
+                    ,guards[index]['name'],guards[index]['address'],guards[index]['phoneNumber'],guards[index]['cnic'],guards[index]['email'],"20000");
+              }
+          )
 
 
         ],
@@ -63,11 +62,10 @@ class GuardWidget extends StatelessWidget {
   final phone;
   final CNIC;
   final email;
-  final profession;
-  final timing;
+
   final salary;
 
-  GuardWidget(this.url,this.name,this.address,this.phone,this.CNIC,this.email,this.profession,this.timing,this.salary);
+  GuardWidget(this.url,this.name,this.address,this.phone,this.CNIC,this.email,this.salary);
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +161,7 @@ class GuardWidget extends StatelessWidget {
                     style:DefaultTextStyle.of(context).style,
                     children:<TextSpan>[
                       TextSpan(text: 'Profession: ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
-                      TextSpan(text: profession,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
+//                      TextSpan(text: profession,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
                     ],
                   ),
                     maxLines: 1,
@@ -175,7 +173,7 @@ class GuardWidget extends StatelessWidget {
                     style:DefaultTextStyle.of(context).style,
                     children:<TextSpan>[
                       TextSpan(text: 'Work Timing: ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
-                      TextSpan(text: timing,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
+                 //     TextSpan(text: timing,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
                     ],
                   ),
                     maxLines: 1,

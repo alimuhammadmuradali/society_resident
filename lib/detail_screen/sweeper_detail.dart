@@ -8,7 +8,7 @@ class sweeperDetail extends StatefulWidget {
   @override
   _sweeperDetailState createState() => _sweeperDetailState();
 }
-
+List sweepers;
 class _sweeperDetailState extends State<sweeperDetail> {
   var index;
   @override
@@ -16,14 +16,14 @@ class _sweeperDetailState extends State<sweeperDetail> {
     return Scaffold(
       body:  CarouselSlider(
         items: <Widget>[
-          SweeperWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
-              ,"Ali Muhammad","Y/812 Karimabad Colony","03999876544","42101-8765443-1","Alimuhammadmuradali@gmail.com","Sweeper","9am-9pm","20000"),
+          ListView.builder(
 
-          SweeperWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
-              ,"Hassan","Y/001 Karimabad Colony","03987654368","42103-87783633-0","Hassanqa13@gmail.com","Sweeper","9pm-9am","15000"),
+              itemCount: sweepers.length ??0,
+              itemBuilder: (context , index){
+                return SweeperWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
+                    ,sweepers[index]['name'],sweepers[index]['address'],sweepers[index]['phoneNumber'],sweepers[index]['cnic'],sweepers[index]['email'],"20000");
 
-          SweeperWidget("https://1z1euk35x7oy36s8we4dr6lo-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/numze-e1572781662446.jpg"
-              ,"Yassa","Y/456 Karimabad Colony","0383947468","421473-8749363-8","yassafareed@gmail.com","Sweeper","3pm-3am","25000"),
+              })
         ],
         options: CarouselOptions(
           disableCenter: true,
@@ -52,11 +52,10 @@ class SweeperWidget extends StatelessWidget {
   final phone;
   final CNIC;
   final email;
-  final profession;
-  final timing;
+
   final salary;
 
-  SweeperWidget(this.url,this.name,this.address,this.phone,this.CNIC,this.email,this.profession,this.timing,this.salary);
+  SweeperWidget(this.url,this.name,this.address,this.phone,this.CNIC,this.email,this.salary);
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +153,7 @@ class SweeperWidget extends StatelessWidget {
                     style:DefaultTextStyle.of(context).style,
                     children:<TextSpan>[
                       TextSpan(text: 'Profession: ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
-                      TextSpan(text: profession,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
+//                      TextSpan(text: profession,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
                     ],
                   ),
                     maxLines: 1,
@@ -166,7 +165,7 @@ class SweeperWidget extends StatelessWidget {
                     style:DefaultTextStyle.of(context).style,
                     children:<TextSpan>[
                       TextSpan(text: 'Work Timing: ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
-                      TextSpan(text: timing,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
+//                      TextSpan(text: timing,style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,),),
                     ],
                   ),
                     maxLines: 1,
