@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:society_resident/constants/global_variables.dart';
+import 'package:society_resident/home_screens/home_screens.dart';
 import 'package:society_resident/setup_screens/login.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(new MyApp());
-
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -42,9 +48,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  var email;
+
   Widget build(BuildContext context) {
+    email = prefs.getString('email');
     return Scaffold(
-      body: new LoginScreen() ,
+      body: email == null ? new LoginScreen() :homeScreen(),
     );
   }
 }
