@@ -24,7 +24,7 @@ class _complainManagementState extends State<complainManagement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
+      body: complains.length==0 ?Center(child: Text("There are no complains")):ListView.builder(
           itemCount: complains==null ?0: complains.length,
           itemBuilder: (context , index){
             return ColoumnWidget(title:complains[index]['title'],name:complains[index]['name'],flat:complains[index]['flat'].toString(),building: complains[index]['building'],date: complains[index]['createdAt'],description:complains[index]['description'] , status:complains[index]['status'] , objId: complains[index]['_id'],);
