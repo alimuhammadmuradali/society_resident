@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/flutterToast.dart';
 import 'package:http/http.dart' as http;
+import 'package:society_resident/constants/global_variables.dart';
 
 class AuthService {
   Map<String, String> _headers = {
@@ -13,6 +14,7 @@ class AuthService {
     print(email);
     print(email.runtimeType);
     print(password);
+    prefs.setString('email', email);
     Map jsonBody = {"email": email, "password": password , "role":"resident"};
     print(jsonBody);
     print(_headers);

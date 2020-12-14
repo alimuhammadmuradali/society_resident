@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:society_resident/constants/global_variables.dart';
 import 'package:society_resident/home_screens/home_screens.dart';
 import 'package:society_resident/services/auth_service.dart';
 import 'package:society_resident/setup_screens/forgot_password.dart';
 import 'package:toast/toast.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -87,10 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
                     ),
-                    errorText: (emailProvided)?null:emailErrorText,
+                    errorText: (emailProvided) ? null : emailErrorText,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(color: Colors.grey),
@@ -113,39 +115,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onTap: () {},
-
                   onChanged: (email) {
                     print(email);
                     setState(() {
-
-                      RegExp regExp =
-                      new RegExp(
+                      RegExp regExp = new RegExp(
                         r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])",
                         caseSensitive: true,
                       );
                       if (email.isEmpty) {
-                        emailErrorText='*Enter Email';
-                        emailProvided=false;
-                      }
-                      else if (!email.contains('@')) {
-                        emailErrorText='*Email should contain @ ';
-                        emailProvided= false;
-                      }
-                      else if (!email.contains('.')) {
-                        emailErrorText="Email should contain '.'";
-                        emailProvided=false;
-                      }
-                      else if (email.contains(' ')) {
+                        emailErrorText = '*Enter Email';
+                        emailProvided = false;
+                      } else if (!email.contains('@')) {
+                        emailErrorText = '*Email should contain @ ';
+                        emailProvided = false;
+                      } else if (!email.contains('.')) {
+                        emailErrorText = "Email should contain '.'";
+                        emailProvided = false;
+                      } else if (email.contains(' ')) {
                         emailErrorText = 'invalid character found';
                         emailProvided = false;
-                      }
-                      else if (regExp.hasMatch(email)) {
-                        emailErrorText=null;
-                        emailProvided= true;
+                      } else if (regExp.hasMatch(email)) {
+                        emailErrorText = null;
+                        emailProvided = true;
                       }
                     });
-
-
                   },
                   obscureText: false,
                 ),
@@ -173,14 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     //labelText: 'Email',
                     hintText: 'Enter your Password',
-                    errorText: (passwordProvided)?null:passwordErrorText,
+                    errorText: (passwordProvided) ? null : passwordErrorText,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 42, vertical: 20),
+                        EdgeInsets.symmetric(horizontal: 42, vertical: 20),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(color: Colors.grey),
@@ -204,48 +197,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onTap: () {},
                   onChanged: (password) {
-
                     print(password);
                     setState(() {
                       int Length = 8;
-                      bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+                      bool hasUppercase =
+                          password.contains(new RegExp(r'[A-Z]'));
                       bool hasDigits = password.contains(new RegExp(r'[0-9]'));
-                      bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+                      bool hasLowercase =
+                          password.contains(new RegExp(r'[a-z]'));
                       bool hasMinLength = password.length > Length;
 
-                      if(hasDigits & hasUppercase & hasLowercase & hasMinLength)
-                      {
-                        passwordErrorText='Password constrains satisfied';
-                        passwordProvided= true;
-                      }
-                      else if(password.isEmpty)
-                      {
-                        passwordErrorText='*Enter Password';
-                        passwordProvided= false;
-                      }
-                      else if(!hasUppercase)
-                      {
-                        passwordErrorText='*Password should contain an upper case letter';
-                        passwordProvided= false;
-                      }
-                      else if(!hasDigits)
-                      {
-                        passwordErrorText='*Password should contain a digit';
-                        passwordProvided= false;
-                      }
-                      else if(!hasLowercase )
-                      {
-                        passwordErrorText='*Password should contain an lower case letter';
-                        passwordProvided= false;
-                      }
-                      else if(!hasMinLength)
-                      {
-                        passwordErrorText='*minimum length should be 8 ';
-                        passwordProvided= false;
+                      if (hasDigits &
+                          hasUppercase &
+                          hasLowercase &
+                          hasMinLength) {
+                        passwordErrorText = 'Password constrains satisfied';
+                        passwordProvided = true;
+                      } else if (password.isEmpty) {
+                        passwordErrorText = '*Enter Password';
+                        passwordProvided = false;
+                      } else if (!hasUppercase) {
+                        passwordErrorText =
+                            '*Password should contain an upper case letter';
+                        passwordProvided = false;
+                      } else if (!hasDigits) {
+                        passwordErrorText = '*Password should contain a digit';
+                        passwordProvided = false;
+                      } else if (!hasLowercase) {
+                        passwordErrorText =
+                            '*Password should contain an lower case letter';
+                        passwordProvided = false;
+                      } else if (!hasMinLength) {
+                        passwordErrorText = '*minimum length should be 8 ';
+                        passwordProvided = false;
                       }
                     });
                     print(passwordProvided);
-
                   },
                   obscureText: true,
                 ),
@@ -287,46 +274,44 @@ class _LoginScreenState extends State<LoginScreen> {
                     elevation: 7.0,
                     child: MaterialButton(
                       onPressed: () {
-
-                        if(emailProvided && passwordProvided) {
+                        if (emailProvided && passwordProvided) {
                           AuthService()
-                               .login(_email.text, _password.text)
-                               .then((val) {
-    print(val);
-    if (val['success']) {
-    token = val['token'];
-    print(token);
-    Toast.show("Authenticated", context,
-    duration: Toast.LENGTH_LONG,
-    gravity: Toast.BOTTOM);
-    Navigator.pop(context);
-    Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) => homeScreen()));
-    //  }
-    //  }
-    //  );
-    //   print('Verifying President');
-    //Toast.show("Verified", context,
-    //  duration: Toast.LENGTH_LONG,
-    //gravity: Toast.BOTTOM);
-    }
-                               });
-    }
-
-                        else if(!emailProvided && !passwordProvided){
+                              .login(_email.text, _password.text)
+                              .then((val) {
+                            print(val);
+                            if (val['success']) {
+                              user.Email = _email.text;
+                              token = val['token'];
+                              print(token);
+                              Toast.show("Authenticated", context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM);
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => homeScreen()));
+                              //  }
+                              //  }
+                              //  );
+                              //   print('Verifying President');
+                              //Toast.show("Verified", context,
+                              //  duration: Toast.LENGTH_LONG,
+                              //gravity: Toast.BOTTOM);
+                            }
+                          });
+                        } else if (!emailProvided && !passwordProvided) {
                           Toast.show("invalid Email and Password", context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                        }
-                        else if(emailProvided){
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+                        } else if (emailProvided) {
                           Toast.show("invalid Password", context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-                        }
-                        else
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
+                        } else
                           Toast.show("invalid Email", context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.BOTTOM);
 //                        AuthService().login(_email.text, _password.text).then((val) {
 //                          if(val?.data['success']?? ''){
 //                            token = val.data['token'];

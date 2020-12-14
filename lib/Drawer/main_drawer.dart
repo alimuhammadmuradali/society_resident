@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:society_resident/Drawer/my_complain.dart';
+import 'package:society_resident/constants/global_variables.dart';
+import 'package:society_resident/main.dart';
 import 'package:toast/toast.dart';
 import 'package:society_resident/Drawer/add_complain.dart';
 import 'package:geolocator/geolocator.dart';
@@ -114,6 +116,14 @@ class Main_Drawer extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
+            onTap: (){
+              prefs.remove('email');
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyHomePage()));
+            },
           ),
         ],
       ),
