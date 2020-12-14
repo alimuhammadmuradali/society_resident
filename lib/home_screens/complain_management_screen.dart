@@ -2,28 +2,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import 'package:society_resident/services/complain.dart';
+
+
 class complainManagement extends StatefulWidget {
   @override
   _complainManagementState createState() => _complainManagementState();
 }
-
-
+List complains;
 class _complainManagementState extends State<complainManagement> {
+
+
+  @override
+  void initState(){
+    super.initState();
+
+    ComplainServices().getComaplains();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child:
-            Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-             ColoumnWidget(title:'Guard Absent',name:'Ali Muhamamd',flat:'812',building: 'Y',date: '4 Nov 2020',status:'Pending',description:'Guard Absent on 23 November at around 2 to 3 o clock'),
-              ColoumnWidget(title:'Sweeper Misbehave ',name:'Hassan Butt',flat:'204',building: 'KA3',date: '5 Nov 2020',status:'Listened',description:'Sweeper had misbehaved with me on 23 November at around 2 to 3 o clock while i was handed him over garbage '),
-              ColoumnWidget(title:'Construction work ',name:'Yassa',flat:'667',building: 'W',date: '3 Nov 2020',status:'Not Listened',description:'Residual of Construction work was thrown besides our building'),
-            ]),
-          ),
-        ));
+      body: ListView.builder(
+          itemCount: complains==null ?0: complains.length,
+          itemBuilder: (context , index){
+            return ColoumnWidget(title:complains[index]['title'],name:complains[index]['name'],flat:complains[index]['flat'].toString(),building: complains[index]['building'],date: complains[index]['createdAt'],description:complains[index]['description'] , status:complains[index]['status'] , objId: complains[index]['_id'],);
+          }
+      ),
+
+    );
+
   }
 }
+
 
 class ColoumnWidget extends StatefulWidget {
   String objId;
@@ -62,7 +74,7 @@ class _ColoumnWidgetState extends State<ColoumnWidget> {
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(color: Colors.grey,width: 2),),
         width: double.infinity,
-        height: 310.0,
+        height: 320.0,
         child: Card(
           elevation: 10.0,
           shape: RoundedRectangleBorder(
@@ -147,35 +159,31 @@ class _ColoumnWidgetState extends State<ColoumnWidget> {
                       ),
                       SizedBox(height: 8),
                       Container(
+                        width: 300.0,
                         height: 20,
-                        width: 300,
-                        child: Row(
-
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                child: RichText(
-                                  text: TextSpan(style: new TextStyle(fontSize: 14.0, color: Colors.black,),
-                                    children: <TextSpan>[
-                                      new TextSpan(text: 'Date: ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
-                                      new TextSpan(text: widget.date, style: new TextStyle(fontSize: 15),)],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: RichText(
-                                  text: TextSpan(style: new TextStyle(fontSize: 14.0, color: Colors.black,),
-                                    children: <TextSpan>[
-                                      new TextSpan(text: 'Status: ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
-                                      new TextSpan(text: widget.status, style: new TextStyle(fontSize: 15),)],
-                                  ),
-                                ),                              ),
-                            )
-                          ],
+                        child: RichText(
+                          text: TextSpan(
+                            style: new TextStyle(fontSize: 14.0, color: Colors.black,),
+                            children: <TextSpan>[
+                              new TextSpan(text: 'Date: ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                              new TextSpan(text: widget.date, style: new TextStyle(fontSize: 15),)],
+                          ),
                         ),
                       ),
+                      SizedBox(height: 8),
+                      Container(
+
+                        width: 300.0,
+                        child: RichText(
+                          text: TextSpan(
+                            style: new TextStyle(fontSize: 14.0, color: Colors.black,),
+                            children: <TextSpan>[
+                              new TextSpan(text: 'Status: ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                              new TextSpan(text: widget.status, style: new TextStyle(fontSize: 15),)],
+                          ),
+                        ),
+                      ),
+
 
                       SizedBox(height: 12,),
                       // Text(

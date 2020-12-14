@@ -14,14 +14,6 @@ class _workersState extends State<workers> {
     int index = 0;
 
 
-//<<<<<<< HEAD
-////  var Pageoptions = [ListofGuards() , ListOfSweapers()];
-//=======
-// // var Pageoptions = [ListofGuards() , ListOfSweapers()];
-//>>>>>>> 604b27ac78656071f9448eca5b3225043271a098
-
-
-
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
