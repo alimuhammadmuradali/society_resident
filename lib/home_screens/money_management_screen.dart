@@ -1,23 +1,25 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:society_resident/constants/global_variables.dart';
 import 'package:society_resident/services/auth_service.dart';
-import 'package:society_resident/services/complain.dart';
+import 'package:society_resident/services/money_pool.dart';
 import 'package:toast/toast.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class moneyManagement extends StatefulWidget {
   @override
   _moneyManagementState createState() => _moneyManagementState();
 }
 
+
 class _moneyManagementState extends State<moneyManagement> {
   TextEditingController _contributedMoneyInput = TextEditingController();
   TextEditingController _spendMoneyInput = TextEditingController();
+  final RefreshController _refreshController = RefreshController();
+  String contributedMoneyy = "";
 
-  double _currentMoney = 0.0;
-  double _spendMoney = 0.0;
-  double _totalEarnedMoney = 0.0;
   String spendErrorText;
   bool spendError=false;
 
@@ -28,18 +30,16 @@ class _moneyManagementState extends State<moneyManagement> {
     user.email = prefs.getString('email');
     print(user.email);
     AuthService().getCurrentUser();
-    ComplainServices().getMyComplains();
-
-
+//    MoneyPoolServices().getMoneyPool();
   }
 
   void updateMoneyPool2(TextEditingController spendMoney) {
     setState(() {
-      // _currentMoney = double.parse(contributedMoney.text) + double.parse(_currentMoney.toString());
+      //  moneypool.currentMoney = double.parse(contributedMoney.text) + double.parse(_currentMoney.toString());
       // print(_currentMoney);
-      _currentMoney = _currentMoney - double.parse(spendMoney.text);
-      print(_currentMoney);
-      _spendMoney = double.parse(spendMoney.text) + _spendMoney;
+      moneypool.currentMoney = moneypool.currentMoney - double.parse(spendMoney.text);
+      print(moneypool.currentMoney);
+      moneypool.spendMoney = double.parse(spendMoney.text) +  moneypool.spendMoney;
       _spendMoneyInput.clear();
 
     });
@@ -47,13 +47,11 @@ class _moneyManagementState extends State<moneyManagement> {
 
   void updateMoneyPool(TextEditingController contributedMoney) {
     setState(() {
-      _currentMoney = double.parse(contributedMoney.text) +
-          double.parse(_currentMoney.toString());
-      print(_currentMoney);
-      // _currentMoney = double.parse(spendMoney.text) - _currentMoney;
-      //     print(_currentMoney);
-      // _spendMoney +=   double.parse(spendMoney.text) + _spendMoney;
-      _totalEarnedMoney = _currentMoney + _spendMoney;
+      moneypool.currentMoney = double.parse(contributedMoney.text) +
+          double.parse(moneypool.currentMoney.toString());
+      contributedMoneyy = contributedMoney.text;
+      print(moneypool.currentMoney);
+      moneypool.totalEarnedMoney = moneypool.currentMoney +  moneypool.spendMoney;
       _contributedMoneyInput.clear();
     });
   }
@@ -87,8 +85,6 @@ class _moneyManagementState extends State<moneyManagement> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child:
-                      // text_input(_price,
-                      //     'Enter Your Price', Icons.contact_mail, false),
                       TextField(
                         controller: controller,
                         decoration: InputDecoration(
@@ -127,7 +123,7 @@ class _moneyManagementState extends State<moneyManagement> {
                         onChanged: (value) {
                           if (!iscurrent) {
                             setState(() {
-                              if (double.parse(value) > _currentMoney) {
+                              if (double.parse(value) > moneypool.currentMoney) {
                                 spendError = true;
                                 spendErrorText = 'high value';
                               }
@@ -135,14 +131,9 @@ class _moneyManagementState extends State<moneyManagement> {
                                 spendError = false;
                             });
                           }
-
                         },
-
-
-
                         obscureText: false,
                       ),
-
                     ),
                     Align(
                         alignment: Alignment.bottomRight,
@@ -158,21 +149,24 @@ class _moneyManagementState extends State<moneyManagement> {
                           onPressed: () {
                             if (iscurrent)
                             {updateMoneyPool(_contributedMoneyInput);
+                            print(moneypool.currentMoney);
+                            MoneyPoolServices().updateMoneyPool().then((value){
+                              print(value);
+                              if(value['success']) {
+                                Navigator.pop(context);
+                                Toast.show("Price Contributed", context,
+                                    duration: Toast.LENGTH_LONG,
+                                    gravity: Toast.CENTER);
+                              }
+                            });
+                            MoneyPoolServices().updateContributors(contributedMoneyy).then((value) {
+                              if(value['success']) {
+                                Toast.show(contributedMoneyy, context,
+                                    duration: Toast.LENGTH_LONG,
+                                    gravity: Toast.CENTER);
+                              }
 
-                            print(_currentMoney);
-                            // MoneyPoolServices().updateCurrentMoney(_currentMoney)
-                            // .then((value){
-                            //   if(value['success'])
-                            //   {
-                            //     Toast.show(value['msg'], context,
-                            //     duration: Toast.LENGTH_LONG,
-                            //     gravity: Toast.BOTTOM);
-                            //   }
-                            // });
-                            Navigator.pop(context);
-                            Toast.show("Price Contributed", context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.CENTER);
+                            });
 
 
                             }else
@@ -180,31 +174,18 @@ class _moneyManagementState extends State<moneyManagement> {
 
                               if(!spendError && !controller.toString().isEmpty){
                                 updateMoneyPool2(_spendMoneyInput);
-                                print(_spendMoney);
-                                //  MoneyPoolServices().updateSpendMoney(_spendMoney)
-                                //  .then((value){
-                                //    print(value);
-                                //    if(value['success'])
-                                //    {
-                                //      Toast.show(value['msg'], context,
-                                //      duration: Toast.LENGTH_LONG,
-                                //      gravity: Toast.BOTTOM);
-                                //        print(_currentMoney);
-                                //  MoneyPoolServices().updateCurrentMoney(_currentMoney)
-                                //  .then((value){
-                                //    if(value['success'])
-                                //    {
-                                //      Toast.show(value['msg'], context,
-                                //      duration: Toast.LENGTH_LONG,
-                                //      gravity: Toast.BOTTOM);
-                                //    }
-                                //  });
-                                //    }
-                                //  });
-                                Navigator.pop(context);
-                                Toast.show("Price Spended", context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.CENTER);
+                                print( moneypool.spendMoney);
+
+                                MoneyPoolServices().updateMoneyPool().then((value){
+                                  print(value);
+                                  if(value['success']) {
+                                    Navigator.pop(context);
+                                    Toast.show(value['msg'], context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.BOTTOM);
+                                  }
+                                });
+
 
                               }
 
@@ -221,244 +202,253 @@ class _moneyManagementState extends State<moneyManagement> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Material(
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.only(left: 18, right: 18, top: 22, bottom: 22),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Account OverView:",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Container(
-                // width:MediaQuery.of(context).size.width*0.8,
-                padding:
-                EdgeInsets.only(left: 10, right: 18, top: 22, bottom: 22),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Color(0xffF8F9F9),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width:MediaQuery.of(context).size.width*0.35,
-
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          AutoSizeText(
-                            _currentMoney.toString(),
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 12.0,
-                          ),
-                          Text(
-                            "Current Balance",
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          MaterialButton(
-                            onPressed: () {
-                              _settingModalBottomSheet(
-                                  context, _contributedMoneyInput, true);
-                            },
-                            elevation: 0,
-                            padding: EdgeInsets.all(12),
-                            child: Text(
-                              "+",
-                              style: TextStyle(
-                                fontSize: 22,
-                              ),
-                            ),
-                            shape: CircleBorder(),
-                            color: Colors.yellow,
-                          ),
-//                          RaisedButton(
-//
-//                            onPressed: () {
-//                              _settingModalBottomSheet(
-//                                  context, _spendMoneyInput, false);
-//                            },
-//                            elevation: 0,
-//                            padding: EdgeInsets.all(12),
-//                            child: Text(
-//                              "-",
-//                              style: TextStyle(
-//                                fontSize: 22,
-//                              ),
-//                            ),
-//                            shape: CircleBorder(),
-//                            color: Colors.yellow,
-//                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 34,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "List Of Contributors",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  Icon(
-                    Icons.line_style,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Container(
-                height: 150,
-                color: Color(0xffF8F9F9),
-                child: ListView.builder(
-                  itemCount: 6,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Center(
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                height: 80.0,
-                                width: 80.0,
-                                margin: EdgeInsets.only(left: 5.0, right: 5.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    border: Border.all(
-                                        width: 2.0,
-                                        style: BorderStyle.solid,
-                                        color: Color.fromARGB(255, 0, 0, 0)),
-                                    // ignore: missing_required_param
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          'https://images.unsplash.com/photo-1541647376583-8934aaf3448a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'),
-                                    )),
-                              ),
-                            ),
-                            Text('User Name'),
-                            SizedBox(height: 10),
-                            Text('Contributed Money'),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Cash Flow:",
+    return SmartRefresher(
+      controller: _refreshController,
+      enablePullDown: true,
+      header: WaterDropHeader(),
+      onRefresh: ()async{
+        MoneyPoolServices().getMoneyPool();
+        _refreshController.refreshCompleted();
+      },
+      child: SingleChildScrollView(
+        child: Material(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(left: 18, right: 18, top: 22, bottom: 22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Account OverView:",
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Colors.black,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                child: Card(
-                  elevation: 5.0,
-                  borderOnForeground: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.line_style,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Total Money Earned",
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                            Text(
-                              _totalEarnedMoney.toString(),
-                              style: TextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                Container(
+                  // width:MediaQuery.of(context).size.width*0.8,
+                  padding:
+                  EdgeInsets.only(left: 10, right: 18, top: 22, bottom: 22),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Color(0xffF8F9F9),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Card(
-                  elevation: 5.0,
-                  borderOnForeground: true,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Icon(
-                        Icons.line_style,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Total Money Spent",
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                            Text(
-                              _spendMoney.toString(),
-                              style: TextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                      Container(
+                        width:MediaQuery.of(context).size.width*0.35,
 
-            ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            AutoSizeText(
+                              moneypool.currentMoney.toString(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 12.0,
+                            ),
+                            Text(
+                              "Current Balance",
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                _settingModalBottomSheet(
+                                    context, _contributedMoneyInput, true);
+                              },
+                              elevation: 0,
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                "+",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                ),
+                              ),
+                              shape: CircleBorder(),
+                              color: Colors.yellow,
+                            ),
+//                            RaisedButton(
+//
+//                              onPressed: () {
+//                                _settingModalBottomSheet(
+//                                    context, _spendMoneyInput, false);
+//                              },
+//                              elevation: 0,
+//                              padding: EdgeInsets.all(12),
+//                              child: Text(
+//                                "-",
+//                                style: TextStyle(
+//                                  fontSize: 22,
+//                                ),
+//                              ),
+//                              shape: CircleBorder(),
+//                              color: Colors.yellow,
+//                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 34,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "List Of Contributors",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    Icon(
+                      Icons.line_style,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Container(
+                  height: 150,
+                  color: Color(0xffF8F9F9),
+                  child: moneypool.contributors==null?Center(child: Text("No Contributors Yet")):ListView.builder(
+                    itemCount: moneypool.contributors?.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Card(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                  height: 80.0,
+                                  width: 80.0,
+                                  margin: EdgeInsets.only(left: 5.0, right: 5.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100.0),
+                                      border: Border.all(
+                                          width: 2.0,
+                                          style: BorderStyle.solid,
+                                          color: Color.fromARGB(255, 0, 0, 0)),
+                                      // ignore: missing_required_param
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                            'https://images.unsplash.com/photo-1541647376583-8934aaf3448a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'),
+                                      )),
+                                ),
+                              ),
+                              Text(moneypool?.contributors[index]['name']??""),
+                              SizedBox(height: 10),
+                              Text(moneypool?.contributors[index]['contributedMoney'].toString()??""),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Cash Flow:",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Card(
+                    elevation: 5.0,
+                    borderOnForeground: true,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.line_style,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Total Money Earned",
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              Text(
+                                moneypool.totalEarnedMoney.toString(),
+                                style: TextStyle(
+                                    fontSize: 14.0, fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Card(
+                    elevation: 5.0,
+                    borderOnForeground: true,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.line_style,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Total Money Spent",
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              Text(
+                                moneypool.spendMoney.toString(),
+                                style: TextStyle(
+                                    fontSize: 14.0, fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
           ),
         ),
       ),

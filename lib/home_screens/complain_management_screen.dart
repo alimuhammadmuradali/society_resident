@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:society_resident/services/complain.dart';
 
@@ -20,17 +21,26 @@ class _complainManagementState extends State<complainManagement> {
 //    ComplainServices().getComaplains();
   }
 
-
+  final RefreshController _refreshController = RefreshController();
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: complains.length==0 ?Center(child: Text("There are no complains")):ListView.builder(
+      body:SmartRefresher(
+          controller: _refreshController,
+          enablePullDown: true,
+          header: WaterDropHeader(),
+          onRefresh: ()async{
+            ComplainServices().getComaplains();
+            _refreshController.refreshCompleted();
+          },
+      child:complains.length==0 ?Center(child: Text("There are no complains")):ListView.builder(
           itemCount: complains==null ?0: complains.length,
           itemBuilder: (context , index){
             return ColoumnWidget(title:complains[index]['title'],name:complains[index]['name'],flat:complains[index]['flat'].toString(),building: complains[index]['building'],date: complains[index]['createdAt'],description:complains[index]['description'] , status:complains[index]['status'] , objId: complains[index]['_id'],);
           }
-      ),
-
+      )
+      )
     );
 
   }

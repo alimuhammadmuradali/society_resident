@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:society_resident/services/complain.dart';
 import 'package:toast/toast.dart';
 
 class myComplain extends StatefulWidget {
@@ -11,14 +13,24 @@ class myComplain extends StatefulWidget {
 List myComplains;
 class myComplainState extends State<myComplain> {
   @override
+  final RefreshController _refreshController = RefreshController();
   Widget build(BuildContext context) {
     return Scaffold(
-        body:myComplains.length==0 ? Center(child: Text("There are no complains")):ListView.builder(
+        body:SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        header: WaterDropHeader(),
+    onRefresh: ()async {
+      ComplainServices().getMyComplains();
+      _refreshController.refreshCompleted();
+    },
+        child:myComplains==null ? Center(child: Text("There are no complains")):ListView.builder(
             itemCount: myComplains==null ?0: myComplains.length,
             itemBuilder: (context , index){
               return ColoumnWidget(title:myComplains[index]['title'],name:myComplains[index]['name'],flat:myComplains[index]['flat'].toString(),building: myComplains[index]['building'],date: myComplains[index]['createdAt'].toString(),description:myComplains[index]['description'] , status:myComplains[index]['status']??"Not Listened" , objId: myComplains[index]['_id'],);
             }
-        ),
+        )
+        )
 
     );
   }
